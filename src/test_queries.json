@@ -1,0 +1,28 @@
+{
+    "queries": [
+        {
+            "question": "Online mobile recharge gives us the information about all the mobile service providers. This application provides us the complete information regarding any mobile service provider in terms of their plans, options, benefits etc. Suppose any Airtel customer wants to have the information of all the schemes and services provided by the company he/she can have the information and according to his convenience he can recharge the mobile from the same application. The major advantage of this proposed system is to have the recharging facility of any service provider under same roof",
+            "diagrams": ["collaboration", "sequence", "activity"],
+            "reference": "sppu-oose-nov-2023",
+            "link": "None"
+        },
+        {
+            "question": "The retail store management system is a system designed for managing for ordering, arranging and selling goods. The retail checks for the availability of goods in the store. If the stock of goods is less then retailer place order for goods. While ordering the goods, goods are received at store the retailer then arrange them by product or by price. The retailer makes payment. If the stock of goods is available then he will arrange goods for selling. The retailer then sales the goods directly to the customer. The customer buys the items from retailer. The retailer 1  prepare bill for goods purchased by the customer, be receives amount by credit or by cash from customer.",
+            "diagrams": ["use-case", "class", "activity"],
+            "reference": "sppu-oose-apr-2023",
+            "link": "None"
+        },
+        {
+            "question": "Construct a design element for a point of sale terminal management system that can be used for buying and selling goods in a retail shop. When the customer arrives at the post-check point with the items to purchase, the cashier records each item price and adds the item information to the running sales transaction. The description and price of the current 1  items are displayed. On completion of the item entry, the cashier informs the sales totals and tax to the customer. The customer chooses payment type (cash, cheque, credit/debit). 2  After the payment is made, the system generates a receipt and automatically updates the inventory; the cashier hands over the receipt to the customer",
+            "diagrams": ["use-case", "class", "activity"],
+            "reference": "sppu-oose-apr-2022",
+            "link": "None"
+        },
+        {
+            "question": "Railway reservation system is a system used for booking tickets over the internet. Any customer can book tickets for different trains. A customer can book a ticket only if the tickets are available. The customer searches for an available ticket, then if the tickets are available, he books the tickets by initially filling in details in a form. Tickets can be booked in two ways: by i-ticket or by e-ticket booking. In the case of i-ticket booking, the customer can book the tickets online, and the tickets are couriered to the particular customer at their address. But in the case of e-ticket booking, tickets are booked and cancelled online while sitting at home, and the customer himself has to take a printout of the ticket, but in both cases, the amount for the ticket is deducted from the customer's account. For the cancellation of a ticket, the customer has to go to the reservation office and fill out a form and ask the clerk to cancel the ticket and refund the amount. After booking the ticket, the customer has to check out by paying the fare amount to the clerk.",
+            "diagrams": ["use-case", "class", "sequence"],
+            "reference": "sppu-oose-nov-2022",
+            "link": "None"
+        }
+    ]
+}
