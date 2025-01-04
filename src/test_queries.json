@@ -1,7 +1,7 @@
 {
     "queries": [
         {
-            "question": "Online mobile recharge gives us the information about all the mobile service providers. This application provides us the complete information regarding any mobile service provider in terms of their plans, options, benefits etc. Suppose any Airtel customer wants to have the information of all the schemes and services provided by the company he/she can have the information and according to his convenience he can recharge the mobile from the same application. The major advantage of this proposed system is to have the recharging facility of any service provider under same roof",
+            "question": "Online mobile recharge gives us the information about all the mobile service providers. This application provides us the complete information regarding any mobile service provider in terms of their plans, options, benefits etc. Suppose any Airtel customer wants to have the information of all the schemes and services provided by the company he/she can have the information and according to his convenience he can recharge the mobile from the same application. The major advantage of this proposed system is to have the recharging facility of any service provider under same roof.",
             "diagrams": ["collaboration", "sequence", "activity"],
             "reference": "sppu-oose-nov-2023",
             "link": "None"
