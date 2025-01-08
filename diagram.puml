@@ -1,0 +1,47 @@
+@startuml classdiagramtest2
+
+actor Customer
+participant "Mobile App" as App
+participant "Service Provider DB" as DB
+participant "Payment Gateway" as Payment
+participant "Recharge System" as System
+
+Customer -> App: Open application
+activate App
+
+App -> DB: Request service providers
+activate DB
+DB --> App: Return provider list
+deactivate DB
+
+Customer -> App: Select Airtel
+App -> DB: Request Airtel plans
+activate DB
+DB --> App: Return plan details
+deactivate DB
+
+Customer -> App: Select recharge plan
+App -> App: Validate selection
+
+Customer -> App: Enter mobile number
+App -> App: Verify number format
+
+Customer -> App: Initiate payment
+App -> Payment: Process payment request
+activate Payment
+
+Payment -> Payment: Validate payment details
+Payment -> System: Forward recharge request
+activate System
+
+System -> System: Process recharge
+System --> Payment: Confirm recharge
+deactivate System
+
+Payment --> App: Payment success
+deactivate Payment
+
+App --> Customer: Display recharge confirmation
+deactivate App
+
+@enduml

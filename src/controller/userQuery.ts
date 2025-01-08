@@ -15,7 +15,7 @@ const anthropic = new Anthropic({
     apiKey,
 });
 
-export const userQuery = async (req: Request, res: Response) => {
+const userQuery = async (req: Request, res: Response) => {
     try {
         const { systemPrompt, userPrompt } = req.body;
         const response = await anthropic.messages.create({
@@ -64,10 +64,17 @@ export const userQuery = async (req: Request, res: Response) => {
         res.json({ diagramCode });
     } catch (err) {
         if (err instanceof Error) {
+            res.status(500).json({ isError: true, errMessage: err.message });
             console.log(`Error: ${err.message}`);
         } else {
+            res.status(500).json({
+                isError: true,
+                errMessage: "Unknown Error",
+            });
             console.log("Unknown error");
         }
         process.exit(1);
     }
 };
+
+export default userQuery;

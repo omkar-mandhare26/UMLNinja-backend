@@ -5,7 +5,7 @@ import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-const mongodb_url: string = process.env.MONGODB_URL || "";
+const mongodb_url: string = process.env.MONGODBURL || "";
 
 if (!mongodb_url)
     throw new Error("MONGO_DB_URL is not defined in the environment variables");
