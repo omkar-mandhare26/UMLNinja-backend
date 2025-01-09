@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import User from "../model/user.js";
 import userSchemaZod from "../zod/user.js";
+import { createHashPassword } from "../utils/hash_password.js";
 
 const userSignup = async (req: Request, res: Response) => {
     try {
@@ -9,13 +10,13 @@ const userSignup = async (req: Request, res: Response) => {
         const username =
             `${firstName}${lastName}`.toLowerCase() +
             Math.floor(100000 + Math.random() * 900000);
-
+        const hashedPassword = await createHashPassword(password);
         const newUser = {
             userId: username,
             firstName,
             lastName,
             email,
-            password,
+            password: hashedPassword,
         };
 
         const user = new User(newUser);
@@ -23,7 +24,6 @@ const userSignup = async (req: Request, res: Response) => {
         await user.save();
 
         res.status(200).json({
-            user,
             message: "Signup Successful",
             isError: false,
         });

@@ -73,7 +73,6 @@ const userQuery = async (req: Request, res: Response) => {
             });
             console.log("Unknown error");
         }
-        process.exit(1);
     }
 };
 

@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import Otp from "../model/otp.js";
+import User from "../model/user.js";
 
 const verifyOTP = async (req: Request, res: Response) => {
     try {
@@ -12,6 +13,10 @@ const verifyOTP = async (req: Request, res: Response) => {
         }
 
         await Otp.deleteOne({ email });
+
+        const currentUser = await User.findOne({ email });
+        if (currentUser?.verified == false) currentUser.verified = true;
+        await currentUser?.save();
 
         res.status(200).json({
             message: "Verification Done",
