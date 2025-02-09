@@ -1,24 +1,24 @@
 import { Router } from "express";
 
-const router = Router();
+const adminRouter = Router();
 
-router.post("/signup");
+adminRouter.post("/signup");
 
-router.post("/login");
+adminRouter.post("/login");
 
-router.put("/reset-password");
+adminRouter.put("/reset-password");
 
-router.get("/view-profile");
+adminRouter.get("/view-profile");
 
-router.get("/get-users");
+adminRouter.get("/get-users");
 
-router.get("/get-users/:userId");
+adminRouter.get("/get-users/:userId");
 
-router.delete("/delete-user/:userId");
+adminRouter.delete("/delete-user/:userId");
 
-router.get("/deactivate-user/:userId");
+adminRouter.get("/deactivate-user/:userId");
 
 // No of users, creds used etc
-router.get("/view-stats");
+adminRouter.get("/view-stats");
 
-export default router;
+export default adminRouter;

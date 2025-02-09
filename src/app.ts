@@ -1,7 +1,9 @@
+import connectDB from "./database/connectDB.js";
+import cookieParser from "cookie-parser";
+import router from "./routes/index.js";
 import express from "express";
 import dotenv from "dotenv";
-import connectDB from "./database/connectDB.js";
-import userRoutes from "./routes/userRoutes.js";
+import cors from "cors";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -13,7 +15,16 @@ connectDB(mongodb_url);
 
 const app = express();
 app.use(express.json());
-app.use("/user", userRoutes);
+app.use(cookieParser());
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true,
+    })
+);
+
+app.use("/api", router);
 
 app.get("/", (req, res) => {
     res.send("Hello World There");
@@ -22,3 +33,15 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server Running on http://localhost:${PORT}`);
 });
+
+const diagramNames = [
+    "Class",
+    "Use Case",
+    "Activity",
+    "Component",
+    "State",
+    "Object",
+    "Sequence",
+    "Deployment",
+    "State",
+];

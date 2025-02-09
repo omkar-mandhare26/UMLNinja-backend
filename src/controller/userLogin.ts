@@ -11,14 +11,6 @@ const userLogin = async (req: Request, res: Response) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
 
-        if (user?.verified == false) {
-            res.status(401).json({
-                isError: true,
-                errMessage: "User not Verified",
-            });
-            return;
-        }
-
         if (!user) {
             res.status(404).json({ message: "User not found" });
             return;
@@ -41,23 +33,29 @@ const userLogin = async (req: Request, res: Response) => {
                 userId: user.userId,
                 email,
                 type: "user",
-                fullName: user.firstName + " " + user.lastName,
             },
             secretKey,
             { expiresIn: "1h" }
         );
 
+        // res.cookie("token", token, {
+        //     httpOnly: false,
+        //     secure: true,
+        //     sameSite: "strict",
+        // });
+
         res.cookie("token", token, {
-            httpOnly: false,
+            httpOnly: true,
             secure: true,
             sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
 
         res.json({
-            success: true,
             message: "Login Success",
-            userid: user.userId,
+            user: user.userId,
             token,
+            isError: false,
         });
     } catch (err) {
         if (err instanceof Error) {

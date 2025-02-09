@@ -5,19 +5,6 @@ const userSchemaZod = z.object({
         .string()
         .min(1, { message: "User ID is required" })
         .regex(/^[a-zA-Z0-9]+$/, { message: "User ID must be alphanumeric" }),
-    firstName: z
-        .string()
-        .min(1, { message: "First name is required" })
-        .regex(/^[a-zA-Z\s]+$/, {
-            message: "First name must contain only letters",
-        }),
-
-    lastName: z
-        .string()
-        .min(1, { message: "Last name is required" })
-        .regex(/^[a-zA-Z\s]+$/, {
-            message: "Last name must contain only letters",
-        }),
     email: z.string().email({ message: "Invalid email address" }),
     password: z
         .string()

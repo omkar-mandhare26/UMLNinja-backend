@@ -14,10 +14,6 @@ const verifyOTP = async (req: Request, res: Response) => {
 
         await Otp.deleteOne({ email });
 
-        const currentUser = await User.findOne({ email });
-        if (currentUser?.verified == false) currentUser.verified = true;
-        await currentUser?.save();
-
         res.status(200).json({
             message: "Verification Done",
             isError: false,
@@ -31,7 +27,8 @@ const verifyOTP = async (req: Request, res: Response) => {
             console.log(`Unknown Error`);
             res.status(500).json({
                 isError: true,
-                errMessage: "Unknown Error",
+                errMessage:
+                    "An unexpected error occurred. Please try again later.",
             });
             return;
         }

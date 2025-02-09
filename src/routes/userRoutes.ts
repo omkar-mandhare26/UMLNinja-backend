@@ -1,40 +1,19 @@
 import { Router } from "express";
-import userQuery from "../controller/userQuery.js";
+import userLogout from "../controller/userLogout.js";
 import userSignup from "../controller/userSignup.js";
-import sendOTP from "../controller/sendOTP.js";
 import verifyOTP from "../controller/verifyOTP.js";
 import userLogin from "../controller/userLogin.js";
+import sendOTP from "../controller/sendOTP.js";
+import auth from "../middleware/auth.js";
+import me from "../controller/me.js";
 
-const router = Router();
+const userRouter = Router();
 
-router.post("/signup", userSignup);
+userRouter.post("/send-otp", sendOTP);
+userRouter.post("/verify-otp", verifyOTP);
+userRouter.post("/signup", userSignup);
+userRouter.post("/login", userLogin);
+userRouter.post("/logout", userLogout);
+userRouter.post("/me", auth, me);
 
-router.post("/send-otp", sendOTP);
-
-router.post("/verify-otp", verifyOTP);
-
-router.post("/login", userLogin);
-
-router.put("/update-password");
-
-router.get("/view-profile");
-
-router.get("/create-project");
-
-router.get("/get-all-projects");
-
-router.post("/retrieve-project-details");
-
-router.get("/credits-remaining");
-
-router.put("/update-project");
-
-router.delete("/delete-project");
-
-router.post("/query", userQuery);
-
-router.get("/retrieve-diagram/:diagramId");
-
-router.post("/project-conversations");
-
-export default router;
+export default userRouter;

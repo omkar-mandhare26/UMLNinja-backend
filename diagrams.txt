@@ -1,0 +1,24 @@
+class
+sequence
+component
+use case
+activity
+
+    "Class",
+    "Use Case",
+    "Activity",
+    "Component",
+    "State",
+    "Object",
+    "Sequence",
+    "Deployment",
+
+
+    "Class",
+    "Object",
+    "Use Case",
+    "Sequence",
+    "Activity",
+    "State",
+    "Component",
+    "Deployment",

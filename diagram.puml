@@ -1,51 +1,36 @@
-@startuml classdiagramtest2
+@startuml componentDiagram
 
-actor Retailer
-actor Customer
-participant "Store System" as SS
-participant "Payment System" as PS
-participant "Inventory System" as IS
+interface "Search" as search
+interface "Payment" as payment
+interface "Booking" as booking
+interface "Cancellation" as cancel
+interface "Print" as print
 
-Retailer -> IS: Check stock availability
-activate IS
-IS --> Retailer: Stock status
-deactivate IS
+[Customer Portal] as portal
+[Ticket Management] as ticketMgmt
+[Payment Gateway] as paymentGw
+[Booking System] as bookingSys
+[Reservation Database] as db
+[Courier Service] as courier
+[Print Service] as printer
 
-alt Stock is low
-    Retailer -> SS: Place order for goods
-    activate SS
-    SS -> IS: Update inventory
-    SS --> Retailer: Order confirmation
-    deactivate SS
-    
-    Retailer -> SS: Receive goods
-    activate SS
-    SS -> IS: Update stock
-    SS --> Retailer: Goods received
-    deactivate SS
-    
-    Retailer -> SS: Arrange goods
-    Retailer -> PS: Make payment for order
-    activate PS
-    PS --> Retailer: Payment confirmation
-    deactivate PS
-else Stock is available
-    Retailer -> SS: Arrange goods for selling
-end
+portal -right-> search
+portal -down-> booking
+portal -down-> cancel
 
-Customer -> Retailer: Request to buy goods
-activate Retailer
-Retailer -> SS: Process sale
-activate SS
-SS -> IS: Update inventory
-SS -> PS: Generate bill
-activate PS
-PS --> Customer: Present bill
-Customer -> PS: Make payment
-PS --> Retailer: Payment confirmation
-deactivate PS
-SS --> Customer: Provide goods
-deactivate SS
-deactivate Retailer
+ticketMgmt -up-( search
+ticketMgmt -up-( booking
+ticketMgmt -up-( cancel
+ticketMgmt -- db
+
+bookingSys -left-( booking
+bookingSys -- db
+bookingSys -right-> payment
+
+paymentGw -left-( payment
+paymentGw -- db
+
+courier -- ticketMgmt : i-ticket
+printer -- ticketMgmt : e-ticket
 
 @enduml

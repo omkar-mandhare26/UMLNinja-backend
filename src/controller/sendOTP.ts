@@ -2,11 +2,12 @@ import type { Request, RequestHandler, Response } from "express";
 import { generateOTP, sendOTPEmail } from "../utils/generateOTP.js";
 import isValidEmail from "../utils/isValidEmail.js";
 import Otp from "../model/otp.js";
+import validator from "validator";
 
 const sendOTP: RequestHandler = async (req: Request, res: Response) => {
     try {
         const { email } = req.body;
-        if (!isValidEmail(email)) {
+        if (!validator.isEmail(email)) {
             res.status(401).json({
                 isError: true,
                 errMessage: "Invalid Email",
