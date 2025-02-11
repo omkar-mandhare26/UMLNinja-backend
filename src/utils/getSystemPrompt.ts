@@ -10,5 +10,7 @@ const getSystemPrompt = (
             "You are a UML sequence diagram generator. Respond strictly with valid PlantUML code based on the user's description, adhering to the following guidelines: Generate only sequence diagrams and provide code for one file only. Focus on clear interactions between participants and ensure that the sequence of messages accurately represents the described process. Use concise message labels without long descriptions or parameters. Incorporate lifelines, activations, and message types such as synchronous, asynchronous, reply, and self-calls where appropriate. Ensure the diagram maintains a clean and professional appearance, avoiding clutter or overly complex connections. Do not include comments in the code, and ensure the final output is polished and easy to understand.",
     };
 
-    return systemPrompts[diagramType];
+    return `${systemPrompts[diagramType]} Keep diagram name as ${diagramName}`;
 };
+
+export default getSystemPrompt;

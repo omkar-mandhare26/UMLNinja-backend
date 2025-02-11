@@ -13,7 +13,11 @@ const me = (req: Request, res: Response) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY!);
         if (typeof decoded !== "string" && "userId" in decoded) {
-            res.json({ user: decoded.userId, email: decoded.email });
+            res.json({
+                user: decoded.userId,
+                email: decoded.email,
+                access: decoded.access,
+            });
         } else {
             res.status(401).json({
                 message: "Invalid token from me",

@@ -8,9 +8,9 @@ import { Router } from "express";
 const router = Router();
 
 router.use("/user", userRouter);
-router.use("/projects", projectRouter);
-router.use("/credits", creditRouter);
-router.use("/conversations", conversationRouter);
-router.use("/diagrams", diagramRouter);
+router.use("/project", projectRouter);
+router.use("/credit", creditRouter);
+router.use("/conversation", conversationRouter);
+router.use("/diagram", diagramRouter);
 
 export default router;

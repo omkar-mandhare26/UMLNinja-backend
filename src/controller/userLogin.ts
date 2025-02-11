@@ -32,6 +32,7 @@ const userLogin = async (req: Request, res: Response) => {
             {
                 userId: user.userId,
                 email,
+                access: user.plan,
                 type: "user",
             },
             secretKey,
