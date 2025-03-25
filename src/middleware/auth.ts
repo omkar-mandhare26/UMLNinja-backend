@@ -7,7 +7,7 @@ const auth: RequestHandler = async (
     next: NextFunction
 ) => {
     const token =
-        req.cookies.token || req.header("Authorization")?.replace("Bearer", "");
+        req.cookies.token || req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
         res.status(401).json({ message: "Unauthorized From middleware" });

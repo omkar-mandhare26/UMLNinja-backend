@@ -6,16 +6,11 @@ const conversationSchema = new mongoose.Schema({
         ref: "users",
         required: true,
     },
-    project: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "projects",
-        required: true,
-    },
     query: {
         type: String,
         required: true,
     },
-    diagramURL: {
+    diagramName: {
         type: String,
         required: true,
     },
@@ -23,6 +18,14 @@ const conversationSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    type: {
+        type: String,
+        required: true,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    }
 });
 
 const Conversation = mongoose.model("conversations", conversationSchema);

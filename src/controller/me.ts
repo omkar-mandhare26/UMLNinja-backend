@@ -17,6 +17,7 @@ const me = (req: Request, res: Response) => {
                 user: decoded.userId,
                 email: decoded.email,
                 access: decoded.access,
+                credits: decoded.totalCredits,
             });
         } else {
             res.status(401).json({

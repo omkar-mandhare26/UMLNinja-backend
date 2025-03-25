@@ -8,9 +8,9 @@ conversationRouter.post("/me", (req, res) => {
     res.json({ msg: "me" });
 });
 
-conversationRouter.use(auth);
+// conversationRouter.use(auth);
 
 conversationRouter.post("/query", userQuery);
-conversationRouter.post("/project-conversations");
+conversationRouter.get("/project-conversations");
 
 export default conversationRouter;

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const creditTransactionSchema = new mongoose.Schema({
+const creditHistorySchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
@@ -18,11 +18,7 @@ const creditTransactionSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    project: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "projects",
-    },
 });
 
-const CreditTransaction = mongoose.model("users", creditTransactionSchema);
-export default CreditTransaction;
+const CreditHistory = mongoose.model("creditHistory", creditHistorySchema);
+export default CreditHistory;

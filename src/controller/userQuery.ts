@@ -8,13 +8,18 @@ import type { Request, Response } from "express";
 import { exec } from "child_process";
 import { promisify } from "util";
 import dotenv from "dotenv";
+import Conversation from "../model/conversation.js";
+import CreditHistory from "../model/creditTransaction.js";
+import Credit from "../model/credit.js";
+import User from "../model/user.js";
 
-const execPromise = promisify(exec);
 dotenv.config();
+const execPromise = promisify(exec);
 
 const userQuery = async (req: Request, res: Response) => {
     try {
         const { userPrompt, diagramType } = req.body;
+
         const token =
             req.cookies.token ||
             req.header("Authorization")?.replace("Bearer ", "");
@@ -29,7 +34,30 @@ const userQuery = async (req: Request, res: Response) => {
                 }
             )
         ).data;
+
+        const userId = (await User.findOne({ userId: user }))?._id;
+        const existingCredits = await Credit.findOne({ user: userId });
+        if (
+            existingCredits &&
+            existingCredits.totalCredits !== undefined &&
+            existingCredits.totalCredits > 0
+        ) {
+            existingCredits.totalCredits -= 1;
+            await existingCredits.save();
+        } else {
+            res.status(400).json({ errMessage: "No Credits Left" });
+            return;
+        }
         const diagramName = generateFileName(user, diagramType);
+
+        const creditTrans = new CreditHistory({
+            user: userId,
+            creditUsed: -1,
+            action: `${diagramName} diagram generated`,
+            timestamp: Date.now(),
+        });
+        await creditTrans.save();
+
         const systemPrompt = getSystemPrompt(diagramType, diagramName);
         const diagramCode: string = await fetchUserQuery(
             systemPrompt,
@@ -41,6 +69,7 @@ const userQuery = async (req: Request, res: Response) => {
             `java -jar plantuml.jar -o "../diagram/" "./generation/code/${diagramName}.puml" -tpng`
         );
         const responsePayload: any = {
+            image_name: diagramName,
             png_url: `http://localhost:5050/api/diagram/retrieve-png-diagram/${diagramName}`,
         };
 
@@ -61,6 +90,14 @@ const userQuery = async (req: Request, res: Response) => {
             responsePayload.svg_url = `http://localhost:5050/api/diagram/retrieve-svg-diagram/${diagramName}`;
             responsePayload.code_url = `http://localhost:5050/api/diagram/retrieve-plantuml-code/${diagramName}`;
         }
+        const conversation = new Conversation({
+            user: userId,
+            query: userPrompt,
+            diagramName,
+            plantUMLCode: diagramCode,
+            type: diagramType,
+        });
+        await conversation.save();
 
         res.json(responsePayload);
     } catch (err) {

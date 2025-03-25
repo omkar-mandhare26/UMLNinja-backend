@@ -1,10 +1,12 @@
-import type { Request, Response } from "express";
-import { z } from "zod";
-import User from "../model/user.js";
-import userSchemaZod from "../zod/user.js";
 import { createHashPassword } from "../utils/hash_password.js";
-import { sendEmail } from "../utils/generateOTP.js";
+import CreditHistory from "../model/creditTransaction.js";
 import generateUserId from "../utils/generatorUserId.js";
+import { sendEmail } from "../utils/generateOTP.js";
+import type { Request, Response } from "express";
+import userSchemaZod from "../zod/user.js";
+import Credit from "../model/credit.js";
+import User from "../model/user.js";
+import { z } from "zod";
 
 const userSignup = async (req: Request, res: Response) => {
     try {
@@ -17,9 +19,25 @@ const userSignup = async (req: Request, res: Response) => {
             password: hashedPassword,
         };
 
-        const user = new User(newUser);
         userSchemaZod.parse(newUser);
+        const user = new User(newUser);
         await user.save();
+
+        const credits = new Credit({
+            user: user._id,
+            totalCredits: 5,
+            updatedAt: Date.now(),
+        });
+
+        const creditTrans = new CreditHistory({
+            user: user._id,
+            creditUsed: 5,
+            action: "Signup Credits",
+            timestamp: Date.now(),
+        });
+
+        await credits.save();
+        await creditTrans.save();
 
         sendEmail(email, "Welcome to UMLNinja", "Welcome to UMLNinja!");
 

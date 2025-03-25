@@ -1,8 +1,6 @@
 import sharp from "sharp";
 import fs from "fs";
-import dotenv from "dotenv";
-
-dotenv.config();
+import path from "path";
 
 async function prepareWatermark(
     baseWidth: number,
@@ -38,21 +36,21 @@ async function calculateWatermarkPosition(
     };
 }
 
+// Add watermark to image
 async function addWatermark(imageName: string, options = {}) {
-    const rootDir = process.env.ROOT_DIR || ".";
-    const basePath = `${rootDir}/generation/diagram/`;
-
-    const originalImagePath = `${basePath}${imageName}`;
-    const tempImagePath = `${basePath}temp_${imageName}`;
-
-    const imageInfo = await sharp(originalImagePath).metadata();
+    const basePath = "/Users/omkarmandhare26/Documents/Developer/Projects/AI Generated UML Diagrams/uml-diagram-backend/generation/diagram/";
+    const inputFilePath = `${basePath}${imageName}`;
+    const tempOutputFilePath = `${basePath}temp_${imageName}`;
+    
+    const imageInfo = await sharp(inputFilePath).metadata();
     const watermarkBuffer = await prepareWatermark(imageInfo.width!, options);
     const position = await calculateWatermarkPosition(
         imageInfo,
         watermarkBuffer
     );
 
-    await sharp(originalImagePath)
+    // Write to a temporary file first
+    await sharp(inputFilePath)
         .composite([
             {
                 input: watermarkBuffer,
@@ -61,9 +59,11 @@ async function addWatermark(imageName: string, options = {}) {
                 blend: "over",
             },
         ])
-        .toFile(tempImagePath);
-
-    fs.renameSync(tempImagePath, originalImagePath);
+        .toFile(tempOutputFilePath);
+    
+    // Replace the original file with the watermarked version
+    fs.unlinkSync(inputFilePath);
+    fs.renameSync(tempOutputFilePath, inputFilePath);
 }
 
 export default addWatermark;

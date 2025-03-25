@@ -3,14 +3,14 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../model/user.js";
 import { checkPassword } from "../utils/hash_password.js";
-
+import Credit from "../model/credit.js";
 dotenv.config();
 
 const userLogin = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
-
+        const credits = await Credit.findOne({ user: user?._id });
         if (!user) {
             res.status(404).json({ message: "User not found" });
             return;
@@ -33,6 +33,7 @@ const userLogin = async (req: Request, res: Response) => {
                 userId: user.userId,
                 email,
                 access: user.plan,
+                credits: credits?.totalCredits,
                 type: "user",
             },
             secretKey,
@@ -49,7 +50,7 @@ const userLogin = async (req: Request, res: Response) => {
             httpOnly: true,
             secure: true,
             sameSite: "strict",
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
         res.json({
