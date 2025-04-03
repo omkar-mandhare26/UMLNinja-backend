@@ -40,12 +40,6 @@ const userLogin = async (req: Request, res: Response) => {
             { expiresIn: "1h" }
         );
 
-        // res.cookie("token", token, {
-        //     httpOnly: false,
-        //     secure: true,
-        //     sameSite: "strict",
-        // });
-
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,
@@ -53,7 +47,7 @@ const userLogin = async (req: Request, res: Response) => {
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
-        res.json({
+        res.status(200).json({
             message: "Login Success",
             user: user.userId,
             token,

@@ -37,7 +37,7 @@ const deleteDiagram = async (req: Request, res: Response) => {
             return;
         }
 
-        res.json({
+        res.status(200).json({
             message: "Diagram deleted successfully",
             deletedDiagram,
         });

@@ -1,6 +1,5 @@
 import type { Request, RequestHandler, Response } from "express";
 import path from "path";
-import fs from "fs";
 
 const retrievePNGDiagram: RequestHandler = (req: Request, res: Response) => {
     try {
@@ -11,14 +10,19 @@ const retrievePNGDiagram: RequestHandler = (req: Request, res: Response) => {
             `/generation/diagram/${diagramId}.png`
         );
 
-        fs.readFile(filePath, (err, data) => {
+        res.sendFile(filePath, (err) => {
             if (err) {
-                return res
-                    .status(404)
-                    .json({ isError: true, errMessage: "Diagram not found" });
+                if ((err as any).code === "ENOENT") {
+                    return res.status(404).json({
+                        isError: true,
+                        errMessage: "Diagram not found",
+                    });
+                }
+                res.status(500).json({
+                    isError: true,
+                    errMessage: err.message,
+                });
             }
-            res.setHeader("Content-Type", "application/octet-stream");
-            res.send(data);
         });
     } catch (err) {
         if (err instanceof Error) {

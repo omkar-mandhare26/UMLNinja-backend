@@ -1,6 +1,5 @@
 import sharp from "sharp";
 import fs from "fs";
-import path from "path";
 
 async function prepareWatermark(
     baseWidth: number,
@@ -36,12 +35,12 @@ async function calculateWatermarkPosition(
     };
 }
 
-// Add watermark to image
 async function addWatermark(imageName: string, options = {}) {
-    const basePath = "/Users/omkarmandhare26/Documents/Developer/Projects/AI Generated UML Diagrams/uml-diagram-backend/generation/diagram/";
+    const basePath =
+        "/Users/omkarmandhare26/Documents/Developer/Projects/AI Generated UML Diagrams/uml-diagram-backend/generation/diagram/";
     const inputFilePath = `${basePath}${imageName}`;
     const tempOutputFilePath = `${basePath}temp_${imageName}`;
-    
+
     const imageInfo = await sharp(inputFilePath).metadata();
     const watermarkBuffer = await prepareWatermark(imageInfo.width!, options);
     const position = await calculateWatermarkPosition(
@@ -49,7 +48,6 @@ async function addWatermark(imageName: string, options = {}) {
         watermarkBuffer
     );
 
-    // Write to a temporary file first
     await sharp(inputFilePath)
         .composite([
             {
@@ -60,8 +58,7 @@ async function addWatermark(imageName: string, options = {}) {
             },
         ])
         .toFile(tempOutputFilePath);
-    
-    // Replace the original file with the watermarked version
+
     fs.unlinkSync(inputFilePath);
     fs.renameSync(tempOutputFilePath, inputFilePath);
 }

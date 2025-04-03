@@ -26,7 +26,7 @@ const getMyPlan = async (req: Request, res: Response) => {
                 return;
             }
 
-            res.json({
+            res.status(200).json({
                 plan: user.plan,
                 credits: credits.totalCredits,
             });

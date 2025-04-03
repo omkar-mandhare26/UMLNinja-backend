@@ -1,9 +1,10 @@
 import Conversation from "../model/conversation.js";
 import { Request, Response } from "express";
+import Credit from "../model/credit.js";
 import User from "../model/user.js";
 import jwt from "jsonwebtoken";
 
-const getAllDiagrams = async (req: Request, res: Response) => {
+const viewProfile = async (req: Request, res: Response) => {
     try {
         const token =
             req.cookies.token ||
@@ -21,25 +22,21 @@ const getAllDiagrams = async (req: Request, res: Response) => {
         const decoded = jwt.verify(token, secretKey) as { userId: string };
         const user = await User.findOne({ userId: decoded.userId });
 
-        const conversations = await Conversation.find({ user: user?._id }).sort(
-            { createdAt: -1 }
-        );
-        res.status(200).json({ diagrams: conversations });
+        const creditsRcr = await Credit.findOne({ user: user?._id });
+        const totalDiagrams = await Conversation.countDocuments({
+            user: user?._id,
+        });
+
+        res.status(200).json({
+            username: user?.userId,
+            email: user?.email,
+            plan: user?.plan,
+            credits: creditsRcr?.totalCredits,
+            totalDiagrams: totalDiagrams,
+        });
     } catch (err) {
-        if (err instanceof Error) {
-            res.status(500).json({
-                isError: true,
-                errMessage: `Error fetching diagrams: ${err.message}`,
-            });
-            console.log(`Error: ${err.message}`);
-        } else {
-            res.status(500).json({
-                isError: true,
-                errMessage: "Unknown Error",
-            });
-            console.log("Unknown error");
-        }
+        res.status(500).json({ errMessage: "Server Error" });
     }
 };
 
-export default getAllDiagrams;
+export default viewProfile;

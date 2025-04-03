@@ -1,17 +1,17 @@
 import generatePlantUMLCode from "../utils/generatePlantUMLCode.js";
 import generateFileName from "../utils/generateFileName.js";
 import getSystemPrompt from "../utils/getSystemPrompt.js";
+import CreditHistory from "../model/creditTransaction.js";
 import fetchUserQuery from "../utils/fetchUserQuery.js";
 import axiosInstance from "../utils/axiosInstance.js";
 import addWatermark from "../utils/addWatermark.js";
+import Conversation from "../model/conversation.js";
 import type { Request, Response } from "express";
+import Credit from "../model/credit.js";
 import { exec } from "child_process";
+import User from "../model/user.js";
 import { promisify } from "util";
 import dotenv from "dotenv";
-import Conversation from "../model/conversation.js";
-import CreditHistory from "../model/creditTransaction.js";
-import Credit from "../model/credit.js";
-import User from "../model/user.js";
 
 dotenv.config();
 const execPromise = promisify(exec);
@@ -99,7 +99,7 @@ const userQuery = async (req: Request, res: Response) => {
         });
         await conversation.save();
 
-        res.json(responsePayload);
+        res.status(200).json(responsePayload);
     } catch (err) {
         if (err instanceof Error) {
             res.status(500).json({

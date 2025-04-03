@@ -13,7 +13,7 @@ const me = (req: Request, res: Response) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY!);
         if (typeof decoded !== "string" && "userId" in decoded) {
-            res.json({
+            res.status(200).json({
                 user: decoded.userId,
                 email: decoded.email,
                 access: decoded.access,

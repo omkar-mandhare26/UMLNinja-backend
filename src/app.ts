@@ -44,5 +44,4 @@ const diagramNames = [
     "Object",
     "Sequence",
     "Deployment",
-    "State",
 ];
